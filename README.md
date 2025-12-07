@@ -21,19 +21,19 @@
 
 ### • Enhanced Routing & Navigation  
 - Routing improvements including **layout deduplication** and **incremental prefetching**: shared layouts load once, and only needed parts of pages are prefetched.   
-- Smoother, faster page transitions with less redundant network or rendering overhead. 0}  
+- Smoother, faster page transitions with less redundant network or rendering overhead.  
 
 ### • Build Adapters API (Alpha)  
 - New **Build Adapters API** allows customizing build output or adapt Next.js to various environments (e.g. custom hosting, non-default infrastructures).
 
 ### • Updated React / Ecosystem Support  
-- Next.js 16 supports latest features from React 19 — e.g. `View Transitions`, `useEffectEvent()`, `<Activity />` for smoother UI behavior. 3}  
-- Default project setup (via `create-next-app`) is now more streamlined: includes App Router, TypeScript-first configuration, and sensible defaults for modern development. 4}  
+- Next.js 16 supports latest features from React 19 — e.g. `View Transitions`, `useEffectEvent()`, `<Activity />` for smoother UI behavior.  
+- Default project setup (via `create-next-app`) is now more streamlined: includes App Router, TypeScript-first configuration, and sensible defaults for modern development.  
 
 ## ⚠️ Breaking Changes & Removals  
 
-- Minimum required Node.js version raised to **20.9.0 (LTS)** or later; minimum TypeScript version is now **5.1.0+**. 5}  
-- **AMP support removed** — the deprecated AMP standard is no longer supported (`useAmp`, `amp: true` configs dropped). 6}  
+- Minimum required Node.js version raised to **20.9.0 (LTS)** or later; minimum TypeScript version is now **5.1.0+**.  
+- **AMP support removed** — the deprecated AMP standard is no longer supported (`useAmp`, `amp: true` configs dropped).  
 - The old `middleware.ts` file has been replaced by a new **`proxy.ts`** approach for middleware — migrating existing middleware may require updates.
 - Default behavior and config defaults (e.g. image defaults, async route params / searchParams behavior) have changed — refer to the official changelog and migration guide.  
 
