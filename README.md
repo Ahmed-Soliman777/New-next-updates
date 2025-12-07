@@ -2,40 +2,40 @@
 
 ## 📥 Version  
 
-**Next.js 16** — stable release (Oct 21, 2025) :contentReference[oaicite:1]{index=1}  
+**Next.js 16** — stable release (Oct 21, 2025)   
 
 ## 🎯 Key Features & Improvements  
 
 ### • Turbopack by Default  
-- The Rust-based bundler **Turbopack** is now the default bundler for all new Next.js projects. :contentReference[oaicite:2]{index=2}  
-- Expect significantly improved build performance: up to **10× faster Fast Refresh** and **2–5× faster production builds**. :contentReference[oaicite:3]{index=3}  
-- Optionally, you can still revert to Webpack (`next dev --webpack`, `next build --webpack`) if needed. :contentReference[oaicite:4]{index=4}
+- The Rust-based bundler **Turbopack** is now the default bundler for all new Next.js projects.   
+- Expect significantly improved build performance: up to **10× faster Fast Refresh** and **2–5× faster production builds**.   
+- Optionally, you can still revert to Webpack (`next dev --webpack`, `next build --webpack`) if needed. 
 
 ### • Explicit Caching with “Cache Components”  
-- Introduces a new caching model: **Cache Components** via the `use cache` directive, giving you explicit control over what gets cached. :contentReference[oaicite:5]{index=5}  
-- Built on top of previous Partial Pre-Rendering (PPR), letting you mix static and dynamic parts in the same page — fast initial load + up-to-date data. :contentReference[oaicite:6]{index=6}  
-- Improved caching APIs: new `updateTag()`, `refresh()`, and refined `revalidateTag()` to better manage revalidation and cache invalidation. :contentReference[oaicite:7]{index=7}  
+- Introduces a new caching model: **Cache Components** via the `use cache` directive, giving you explicit control over what gets cached.   
+- Built on top of previous Partial Pre-Rendering (PPR), letting you mix static and dynamic parts in the same page — fast initial load + up-to-date data.   
+- Improved caching APIs: new `updateTag()`, `refresh()`, and refined `revalidateTag()` to better manage revalidation and cache invalidation.   
 
 ### • Built-in React Compiler Support  
-- Stable support for the **React Compiler**: automatically memoizes components to reduce unnecessary re-renders — fewer manual optimizations required. :contentReference[oaicite:8]{index=8}  
+- Stable support for the **React Compiler**: automatically memoizes components to reduce unnecessary re-renders — fewer manual optimizations required.   
 
 ### • Enhanced Routing & Navigation  
-- Routing improvements including **layout deduplication** and **incremental prefetching**: shared layouts load once, and only needed parts of pages are prefetched. :contentReference[oaicite:9]{index=9}  
-- Smoother, faster page transitions with less redundant network or rendering overhead. :contentReference[oaicite:10]{index=10}  
+- Routing improvements including **layout deduplication** and **incremental prefetching**: shared layouts load once, and only needed parts of pages are prefetched.   
+- Smoother, faster page transitions with less redundant network or rendering overhead. 0}  
 
 ### • Build Adapters API (Alpha)  
-- New **Build Adapters API** allows customizing build output or adapt Next.js to various environments (e.g. custom hosting, non-default infrastructures). :contentReference[oaicite:11]{index=11}  
+- New **Build Adapters API** allows customizing build output or adapt Next.js to various environments (e.g. custom hosting, non-default infrastructures).
 
 ### • Updated React / Ecosystem Support  
-- Next.js 16 supports latest features from React 19 — e.g. `View Transitions`, `useEffectEvent()`, `<Activity />` for smoother UI behavior. :contentReference[oaicite:13]{index=13}  
-- Default project setup (via `create-next-app`) is now more streamlined: includes App Router, TypeScript-first configuration, and sensible defaults for modern development. :contentReference[oaicite:14]{index=14}  
+- Next.js 16 supports latest features from React 19 — e.g. `View Transitions`, `useEffectEvent()`, `<Activity />` for smoother UI behavior. 3}  
+- Default project setup (via `create-next-app`) is now more streamlined: includes App Router, TypeScript-first configuration, and sensible defaults for modern development. 4}  
 
 ## ⚠️ Breaking Changes & Removals  
 
-- Minimum required Node.js version raised to **20.9.0 (LTS)** or later; minimum TypeScript version is now **5.1.0+**. :contentReference[oaicite:15]{index=15}  
-- **AMP support removed** — the deprecated AMP standard is no longer supported (`useAmp`, `amp: true` configs dropped). :contentReference[oaicite:16]{index=16}  
-- The old `middleware.ts` file has been replaced by a new **`proxy.ts`** approach for middleware — migrating existing middleware may require updates. :contentReference[oaicite:17]{index=17}  
-- Default behavior and config defaults (e.g. image defaults, async route params / searchParams behavior) have changed — refer to the official changelog and migration guide. :contentReference[oaicite:18]{index=18}  
+- Minimum required Node.js version raised to **20.9.0 (LTS)** or later; minimum TypeScript version is now **5.1.0+**. 5}  
+- **AMP support removed** — the deprecated AMP standard is no longer supported (`useAmp`, `amp: true` configs dropped). 6}  
+- The old `middleware.ts` file has been replaced by a new **`proxy.ts`** approach for middleware — migrating existing middleware may require updates.
+- Default behavior and config defaults (e.g. image defaults, async route params / searchParams behavior) have changed — refer to the official changelog and migration guide.  
 
 ## 🛠 Recommended Upgrade Steps  
 
