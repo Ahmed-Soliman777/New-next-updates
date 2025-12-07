@@ -1,6 +1,7 @@
 import { posts } from "@/app/utils/data";
 import { PostDetailsProps, UpdatePostDTO } from "@/app/utils/types";
 import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/app/utils/db";
 
 /** documentation for api posts
 *@method  GET
@@ -10,14 +11,16 @@ import { NextRequest, NextResponse } from "next/server";
 */
 
 export async function GET(request: NextRequest, { params }: PostDetailsProps) {
-  const resolvedParams = await params;
-  const id = resolvedParams.id;
-  //   console.log(id);
-  const post = posts.find((p) => p.id === parseInt(id));
-  if (!post) {
-    return NextResponse.json({ messae: "No post found" }, { status: 404 });
+  try {
+    const { id } = await params;
+    const post = await prisma.post.findUnique({ where: { id: parseInt(id) } });
+    if (!post) {
+      return NextResponse.json({ message: "No post found!" }, { status: 404 });
+    }
+    return NextResponse.json({ post }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ message: error }, { status: 500 });
   }
-  return NextResponse.json(post, { status: 200 });
 }
 
 /** documentation for api posts
@@ -28,18 +31,32 @@ export async function GET(request: NextRequest, { params }: PostDetailsProps) {
 */
 
 export async function PUT(request: NextRequest, { params }: PostDetailsProps) {
-  const resolvedParams = await params;
-  const id = resolvedParams.id;
-  const body = (await await request.json()) as UpdatePostDTO;
-  //   console.log(id);
-  const post = posts.find((p) => p.id === parseInt(id));
-  if (!post) {
-    return NextResponse.json({ messae: "No post found" }, { status: 404 });
+  try {
+    const { id } = await params;
+    const post = await prisma.post.findUnique({ where: { id: parseInt(id) } });
+    if (!post) {
+      return NextResponse.json(
+        { message: "No post found - invalid id !🤔! " },
+        { status: 404 }
+      );
+    }
+    const body = (await await request.json()) as UpdatePostDTO;
+    //   console.log(id);
+    if (!post) {
+      return NextResponse.json({ messae: "No post found" }, { status: 404 });
+    }
+    const updatePost = await prisma.post.update({
+      where: { id: parseInt(id) },
+      data: {
+        title: body.title,
+        body: body.body,
+      },
+    });
+    return NextResponse.json({ updatePost }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ message: error }, { status: 500 });
   }
-  console.log(body);
-  return NextResponse.json({message: "Post update successfully"}, { status: 200 });
 }
-
 
 /** documentation for api posts
 *@method  PUT
@@ -48,14 +65,23 @@ export async function PUT(request: NextRequest, { params }: PostDetailsProps) {
  @access  Public
 */
 
-export async function DELETE(request: NextRequest, { params }: PostDetailsProps) {
-  const resolvedParams = await params;
-  const id = resolvedParams.id;
-  //   console.log(id);
-  const post = posts.find((p) => p.id === parseInt(id));
-  if (!post) {
-    return NextResponse.json({ messae: "No post found" }, { status: 404 });
-  }
+export async function DELETE(
+  request: NextRequest,
+  { params }: PostDetailsProps
+) {
+  try {
+    const { id } = await params;
+    //   console.log(id);
+    const post = await prisma.post.delete({ where: { id: parseInt(id) } });
+    if (!post) {
+      return NextResponse.json({ messae: "No post found" }, { status: 404 });
+    }
 
-  return NextResponse.json({message: "Post deleted successfully"}, { status: 200 });
+    return NextResponse.json(
+      { message: `Post ${id} deleted successfully` },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json({ message: error }, { status: 500 });
+  }
 }

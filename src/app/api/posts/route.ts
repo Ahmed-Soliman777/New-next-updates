@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { posts } from "@/app/utils/data";
-import { CreatePostDTO, Post } from "@/app/utils/types";
+import { CreatePostDTO } from "@/app/utils/types";
 import { createPostSchema } from "@/app/utils/validationSchemas";
+import { Post } from "@/generated/prisma/client";
+import prisma from "@/app/utils/db";
 
 /** documentation for api posts
 *@method  GET
@@ -11,7 +12,13 @@ import { createPostSchema } from "@/app/utils/validationSchemas";
 */
 
 export async function GET() {
-  return NextResponse.json(posts, { status: 200 });
+  try {
+    // return NextResponse.json(posts, { status: 200 });
+    const posts = await prisma.post.findMany();
+    return NextResponse.json(posts, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ message: error }, { status: 500 });
+  }
 }
 
 /** documentation for api posts
@@ -22,28 +29,33 @@ export async function GET() {
 */
 
 export async function POST(request: NextRequest) {
-  const body = (await request.json()) as CreatePostDTO;
+  try {
+    const body = (await request.json()) as CreatePostDTO;
 
-  const validation = createPostSchema.safeParse(body);
+    const validation = createPostSchema.safeParse(body);
 
-  if (!validation.success) {
-    // console.log(validation.error.issues[0].message);
-    
-    return NextResponse.json({ message: validation.error.issues[0].message }, { status: 400 });
+    if (!validation.success) {
+      // console.log(validation.error.issues[0].message);
+
+      return NextResponse.json(
+        { message: validation.error.issues[0].message },
+        { status: 400 }
+      );
+    }
+
+    // console.log(body);
+    const newPost: Post = await prisma.post.create({
+      data: {
+        title: body.title,
+        body: body.body,
+      },
+    });
+
+    return NextResponse.json(
+      { message: "created", post: newPost },
+      { status: 201 }
+    );
+  } catch (error) {
+    return NextResponse.json({ message: error }, { status: 500 });
   }
-
-  // console.log(body);
-  const newPost: Post = {
-    title: body.title,
-    body: body.body,
-    id: posts.length + 1,
-    userId: 200,
-  };
-
-  posts.push(newPost);
-
-  return NextResponse.json(
-    { message: "created", post: newPost },
-    { status: 201 }
-  );
 }
