@@ -10,3 +10,14 @@ export const createPostSchema = z.object({
     .min(2, { error: "body must be more than 2 chars" })
     .max(100),
 });
+
+export const RegisterSchema = z.object({
+  username: z.string().min(2).max(35),
+  email: z.email().min(2).max(100),
+  password: z.string().min(2).max(35),
+});
+
+export const LoginSchema = z.object({
+  email: z.email().min(2).max(100),
+  password: z.string().min(2).max(35),
+});
