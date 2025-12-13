@@ -1,8 +1,9 @@
-import { LoginUserDto } from "@/app/utils/types";
+import { JWTPayload, LoginUserDto } from "@/app/utils/types";
 import { NextRequest, NextResponse } from "next/server";
 import { LoginSchema } from "./../../../utils/validationSchemas";
 import prisma from "@/app/utils/db";
 import bcrypt from "bcryptjs";
+import { generateToken } from "@/app/utils/generateToken";
 
 /**
  * @Route ~/api/users/login
@@ -35,8 +36,16 @@ export const POST = async (request: NextRequest) => {
         { status: 400 }
       );
     }
+
+    const payLoad: JWTPayload = {
+      id: user.id,
+      userName: user.username,
+      isAdmin: user.isAdmin,
+    };
+    const token = generateToken(payLoad);
+
     return NextResponse.json(
-      { message: `Welcome ${user.username} 😘` },
+      { message: `Welcome ${user.username} 😘`, token: token },
       { status: 200 }
     );
   } catch (error) {

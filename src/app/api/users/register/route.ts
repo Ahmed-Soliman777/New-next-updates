@@ -1,5 +1,6 @@
 import prisma from "@/app/utils/db";
-import { RegisterUserDto } from "@/app/utils/types";
+import { generateToken } from "@/app/utils/generateToken";
+import { JWTPayload, RegisterUserDto } from "@/app/utils/types";
 import { RegisterSchema } from "@/app/utils/validationSchemas";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
@@ -50,7 +51,14 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    return NextResponse.json(newUser, { status: 201 });
+    const payLoad: JWTPayload = {
+      id: newUser.id,
+      userName: newUser.username,
+      isAdmin: newUser.isAdmin,
+    };
+    const token = generateToken(payLoad);
+
+    return NextResponse.json({ ...newUser, token }, { status: 201 });
   } catch (error) {
     NextResponse.json({ message: error }, { status: 500 });
   }

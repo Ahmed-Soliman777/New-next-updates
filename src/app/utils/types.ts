@@ -43,3 +43,9 @@ export interface LoginUserDto {
   email: string;
   password: string;
 }
+
+export interface JWTPayload {
+  id: number;
+  isAdmin: boolean;
+  userName: string;
+}
