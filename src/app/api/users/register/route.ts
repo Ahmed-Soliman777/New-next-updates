@@ -1,5 +1,5 @@
 import prisma from "@/app/utils/db";
-import { generateToken } from "@/app/utils/generateToken";
+import { setCookie } from "@/app/utils/generateToken";
 import { JWTPayload, RegisterUserDto } from "@/app/utils/types";
 import { RegisterSchema } from "@/app/utils/validationSchemas";
 import bcrypt from "bcryptjs";
@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
         username: body.username,
         email: body.email,
         password: hashedPassword,
+        isAdmin: body.isAdmin,
       },
       select: {
         id: true,
@@ -56,9 +57,12 @@ export async function POST(request: NextRequest) {
       userName: newUser.username,
       isAdmin: newUser.isAdmin,
     };
-    const token = generateToken(payLoad);
+    const cookie = setCookie(payLoad);
 
-    return NextResponse.json({ ...newUser, token }, { status: 201 });
+    return NextResponse.json(
+      { message: "Registered & Authenticated" },
+      { status: 201, headers: { "Set-Cookie": cookie } }
+    );
   } catch (error) {
     NextResponse.json({ message: error }, { status: 500 });
   }

@@ -21,3 +21,19 @@ export const LoginSchema = z.object({
   email: z.email().min(2).max(100),
   password: z.string().min(2).max(35),
 });
+
+export const CommentSchema = z.object({
+  text: z
+    .string({ error: "Comment text must be string" })
+    .max(250, { error: "Comment must not exceed 250 characters!" })
+    .min(1, { error: "Empty comment!" }),
+  postId: z
+    .number({ error: "Invalid post id" })
+    .min(1, { error: "You have to insert a valid post id number" }),
+});
+
+export const UpdateUserProfileSchema = z.object({
+  username: z.string().min(2).max(35).optional(),
+  email: z.email().min(2).max(100).optional(),
+  password: z.string().min(2).max(35).optional(),
+});

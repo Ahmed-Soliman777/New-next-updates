@@ -37,6 +37,7 @@ export interface RegisterUserDto {
   username: string;
   email: string;
   password: string;
+  isAdmin: boolean;
 }
 
 export interface LoginUserDto {
@@ -48,4 +49,28 @@ export interface JWTPayload {
   id: number;
   isAdmin: boolean;
   userName: string;
+}
+
+export interface ProfileIdProps {
+  params: { id: string };
+}
+
+export interface UpdateProfileDTO {
+  username?: string;
+  email?: string;
+  password?: string;
+  isAdmin?: boolean;
+}
+
+export interface CreateCommentDTO {
+  text: string;
+  postId: number;
+}
+
+export interface commentPropsType {
+  params: { id: string };
+}
+
+export interface UpdateCommentDTO {
+  text: string;
 }

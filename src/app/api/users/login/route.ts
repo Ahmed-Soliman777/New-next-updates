@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { LoginSchema } from "./../../../utils/validationSchemas";
 import prisma from "@/app/utils/db";
 import bcrypt from "bcryptjs";
-import { generateToken } from "@/app/utils/generateToken";
+import { setCookie } from "@/app/utils/generateToken";
 
 /**
  * @Route ~/api/users/login
@@ -42,11 +42,17 @@ export const POST = async (request: NextRequest) => {
       userName: user.username,
       isAdmin: user.isAdmin,
     };
-    const token = generateToken(payLoad);
+
+    const cookie = setCookie(payLoad);
 
     return NextResponse.json(
-      { message: `Welcome ${user.username} 😘`, token: token },
-      { status: 200 }
+      { message: `Welcome ${user.username} 😘` },
+      {
+        status: 200,
+        headers: {
+          "Set-Cookie": cookie,
+        },
+      }
     );
   } catch (error) {
     return NextResponse.json({ message: error }, { status: 500 });
